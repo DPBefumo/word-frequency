@@ -4,10 +4,23 @@ STOP_WORDS = [
     'will', 'with'
 ]
 
+import string
+punctuation = string.punctuation
 
 def print_word_freq(file):
-    """Read in `file` and print out the frequency of words in that file."""
-    pass
+    opened_file = open(file)
+    text = opened_file.read()
+    no_punctuation = ""
+    for punc in text:
+        if punc not in punctuation:
+            no_punctuation = no_punctuation + punc
+    text_lower = no_punctuation.lower()
+    split_text = text_lower.split(" ")
+    new_text = []
+    for n_text in split_text:
+        if not n_text in STOP_WORDS:
+            new_text.append(n_text)
+    print(new_text)
 
 
 if __name__ == "__main__":
