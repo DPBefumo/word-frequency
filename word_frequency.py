@@ -10,18 +10,31 @@ punctuation = string.punctuation
 def print_word_freq(file):
     opened_file = open(file)
     text = opened_file.read()
+    
     no_punctuation = ""
-    for punc in text:
-        if punc not in punctuation:
-            no_punctuation = no_punctuation + punc
+    for character in text:
+        if character not in punctuation:
+            no_punctuation = no_punctuation + character
+    
     text_lower = no_punctuation.lower()
-    split_text = text_lower.split(" ")
-    new_text = []
-    for n_text in split_text:
-        if not n_text in STOP_WORDS:
-            new_text.append(n_text)
-    print(new_text)
-
+    
+    split_text = text_lower.split()
+    
+    new_text = [n_text for n_text in split_text if not n_text in STOP_WORDS]
+    
+    repeated_text = dict()
+    for word in new_text:
+        if word in repeated_text:
+            repeated_text[word] += 1
+        else:
+            repeated_text[word] = 1
+    
+    repeated_text = {key: value for key, value in repeated_text.items() if value >=6}
+    
+    sorted_text = sorted(repeated_text.items(), key=lambda seq: seq[0], reverse=False)
+    
+    for key, value in sorted_text:
+        print (key.rjust(15) , ' | ', value, value * ('*'))
 
 if __name__ == "__main__":
     import argparse
